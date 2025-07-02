@@ -59,7 +59,7 @@ export class Paginatable<T extends { id: number }> {
 	 * If the items are modified, the cache is reset to null.
 	 */
 	get items(): T[] {
-		if (this._itemsCache) return this._itemsCache;
+		if (this._itemsCache !== null) return this._itemsCache;
 
 		this._itemsCache = Array.from(this._items.values());
 		return this._itemsCache;
@@ -85,6 +85,8 @@ export class Paginatable<T extends { id: number }> {
 		for (const item of data || []) {
 			this._items.set(item.id, item);
 		}
+
+		this._itemsCache = null;
 
 		this.dispatch(this.clone());
 	}
